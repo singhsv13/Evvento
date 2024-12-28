@@ -1,27 +1,66 @@
-# EvventoApp
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.10.
+# Evvento - Event Manager App  
 
-## Development server
+Evvento is a user-friendly event management application built using Angular. It helps users browse and manage events effortlessly with features like authentication, event registration, filtering, sorting, and pagination. The app is styled using Bootstrap for a modern and responsive design.  
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Features  
+- **User Authentication**: Login and logout functionality with a dynamic navigation bar.  
+- **Event Registration**: Register or unregister for events directly from the event details page.  
+- **Dynamic Filtering and Sorting**: Filter and sort events by date or name (ascending/descending).  
+- **Pagination**: Navigate through events, displaying 6 events per page with 3 events per row.  
+- **Edit and Register Modes**: Seamlessly switch between edit and registration modes in forms.  
+- **Pre-filled Forms in Edit Mode**: Automatically load event details when editing an event.  
+- **Dynamic Button Toggle**: Switch between "Register" and "Unregister" buttons based on user status.  
 
-## Code scaffolding
+## Tech Stack  
+- **Frontend**: Angular  
+- **Styling**: BootStrap  
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Installation  
 
-## Build
+1. Clone the repository:  
+   ```bash  
+   git clone https://github.com/your-username/evvento.git  
+   cd evvento  
+   ```  
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+2. Install dependencies:  
+   ```bash  
+   npm install  
+   ```  
 
-## Running unit tests
+3. Run the app:  
+   ```bash  
+   ng serve  
+   ```  
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+4. Open in your browser at `http://localhost:4200`.  
 
-## Running end-to-end tests
+## Usage  
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+### Home Component  
+- Displays a list of all available events with filtering, sorting, and pagination options.  
 
-## Further help
+### My Events Component  
+- Shows all events registered by the user with pagination.  
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+### Event Details Component  
+- Provides detailed information about an event.  
+- Allows users to register or unregister for events.  
+
+### Forms  
+- **Registration Form**: Add new events with ease.  
+- **Edit Form**: Update existing events with pre-filled data.  
+
+## Future Enhancements  
+- Implement advanced state management with NgRx.  
+
+## Contributing  
+Contributions are welcome! Please open an issue or submit a pull request for any changes or enhancements.  
+
+## License  
+This project is licensed under the MIT License.  
+
+---  
+
+  
