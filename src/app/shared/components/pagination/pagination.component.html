@@ -1,0 +1,22 @@
+<nav aria-label="Event pagination" *ngIf="totalPages > 1" class="mt-4">
+  <ul class="pagination justify-content-center">
+    <!-- Previous Button -->
+    <li class="page-item" [class.disabled]="currentPage === 1">
+      <button class="page-link" (click)="changePage(currentPage - 1)" aria-label="Previous">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+    </li>
+
+    <!-- Dynamic Page Numbers -->
+    <li *ngFor="let page of getPageNumbers()" class="page-item" [class.active]="currentPage === page">
+      <button class="page-link" (click)="changePage(page)">{{ page }}</button>
+    </li>
+
+    <!-- Next Button -->
+    <li class="page-item" [class.disabled]="currentPage === totalPages">
+      <button class="page-link" (click)="changePage(currentPage + 1)" aria-label="Next">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </li>
+  </ul>
+</nav>

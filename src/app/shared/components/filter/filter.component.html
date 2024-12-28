@@ -1,0 +1,16 @@
+<div class="d-flex align-items-center mb-2 mb-md-0">
+    <label for="filter-select" class="form-label me-3 mb-0 fw-semibold text-secondary">
+      <i class="fa fa-filter me-1"></i> {{ label }}
+    </label>
+    <select
+      id="filter-select"
+      class="form-select form-select-sm shadow-sm"
+      (change)="onFilterChange($event)"
+    >
+      <option [value]="defaultOption" selected>{{ defaultOption | titlecase }}</option>
+      <option *ngFor="let option of options" [value]="option">
+        {{ option | titlecase }}
+      </option>
+    </select>
+  </div>
+  

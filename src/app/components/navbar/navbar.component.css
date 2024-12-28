@@ -1,0 +1,10 @@
+.nav-link.active {
+  color: #ffffff !important; /* Highlight active link in primary color */
+  font-weight: bold;
+  /* text-decoration: underline; */
+}
+
+.nav-link:hover {
+  color: #dfdfdf !important; /* Highlight links on hover */
+  text-decoration: underline;
+}

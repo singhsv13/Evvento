@@ -1,0 +1,155 @@
+<div class="wrapper">
+  <div class="content">
+    <div class="container mt-5 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-4">
+          <!-- Tabs for switching between Login and Register -->
+          <ul class="nav nav-pills mb-4 justify-content-center" id="formTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+              <a 
+                class="nav-link login-tab" 
+                id="login-tab" 
+                data-bs-toggle="tab" 
+                href="#login" 
+                role="tab" 
+                aria-controls="login" 
+                aria-selected="true" 
+                (click)="switchMode()" 
+                [class.active]="isLoginMode">
+                <i class="fas fa-sign-in-alt me-2"></i>Login
+              </a>
+            </li>
+            <li class="nav-item" role="presentation">
+              <a 
+                class="nav-link register-tab" 
+                id="register-tab" 
+                data-bs-toggle="tab" 
+                href="#register" 
+                role="tab" 
+                aria-controls="register" 
+                aria-selected="false" 
+                (click)="switchMode()" 
+                [class.active]="!isLoginMode">
+                <i class="fas fa-user-plus me-2"></i>Register
+              </a>
+            </li>
+          </ul>
+
+          <!-- Card for modern design -->
+          <div class="card shadow">
+            <div class="card-body">
+              <div class="tab-content" id="formTabsContent">
+                <!-- Login Form -->
+                <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
+                  <h4 class="text-center mb-4">Welcome Back</h4>
+                  <form [formGroup]="authForm" (ngSubmit)="onFormSubmit()">
+                    <div class="mb-3">
+                      <label for="loginEmail" class="form-label">
+                        <i class="fas fa-envelope me-2"></i>Email address
+                      </label>
+                      <input 
+                        type="email" 
+                        class="form-control" 
+                        id="loginEmail" 
+                        placeholder="Enter your email" 
+                        formControlName="email">
+                      <small *ngIf="authForm.get('email').invalid && authForm.get('email').touched" class="text-danger">*Email is required</small>
+                    </div>
+                    <div class="mb-3">
+                      <label for="loginPassword" class="form-label">
+                        <i class="fas fa-lock me-2"></i>Password
+                      </label>
+                      <input 
+                        type="password" 
+                        class="form-control" 
+                        id="loginPassword" 
+                        placeholder="Enter your password" 
+                        formControlName="password">
+                      <small *ngIf="authForm.get('password').invalid && authForm.get('password').touched" class="text-danger">*Password is required</small>
+                    </div>
+                    <div class="d-grid">
+                      <button type="submit" class="btn btn-primary btn-block">
+                        <i class="fas fa-sign-in-alt me-2"></i>Login
+                      </button>
+                    </div>
+                    <div class="text-center mt-2">
+                      <a 
+                        href="#" 
+                        class="text-primary text-decoration-none forgot-password" 
+                        data-bs-toggle="modal" 
+                        data-bs-target="#forgotPasswordModal">
+                        Forgot Password?
+                      </a>
+                    </div>
+                  </form>
+                </div>
+
+                <!-- Registration Form -->
+                <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab">
+                  <h4 class="text-center mb-4">Join Us</h4>
+                  <form [formGroup]="registerForm" (ngSubmit)="onFormSubmit()">
+                    <div class="mb-3">
+                      <label for="name" class="form-label">
+                        <i class="fas fa-user me-2"></i>Name
+                      </label>
+                      <input 
+                        type="text" 
+                        class="form-control" 
+                        id="name" 
+                        placeholder="Enter your name" 
+                        formControlName="name">
+                      <small *ngIf="registerForm.get('name').invalid && registerForm.get('name').touched" class="text-danger">*Name is required</small>
+                    </div>
+                    <div class="mb-3">
+                      <label for="registerEmail" class="form-label">
+                        <i class="fas fa-envelope me-2"></i>Email address
+                      </label>
+                      <input 
+                        type="email" 
+                        class="form-control" 
+                        id="registerEmail" 
+                        placeholder="Enter your email" 
+                        formControlName="email">
+                      <small *ngIf="registerForm.get('email').invalid && registerForm.get('email').touched" class="text-danger">*Email is required</small>
+                    </div>
+                    <div class="mb-3">
+                      <label for="registerPassword" class="form-label">
+                        <i class="fas fa-lock me-2"></i>Password
+                      </label>
+                      <input 
+                        type="password" 
+                        class="form-control" 
+                        id="registerPassword" 
+                        placeholder="Enter password" 
+                        formControlName="password">
+                      <small *ngIf="registerForm.get('password').invalid && registerForm.get('password').touched" class="text-danger">*Password is required</small>
+                    </div>
+                    <div class="mb-3">
+                      <label for="confirmRegisterPassword" class="form-label">
+                        <i class="fas fa-lock me-2"></i>Confirm Password
+                      </label>
+                      <input 
+                        type="password" 
+                        class="form-control" 
+                        id="confirmRegisterPassword" 
+                        placeholder="Confirm password" 
+                        formControlName="confirmPassword">
+                        <small *ngIf="registerForm.get('confirmPassword').invalid && registerForm.get('confirmPassword').touched" class="text-danger">*Confirm Password is required</small>
+                        <small *ngIf="registerForm.errors?.['passwordsMismatch'] && registerForm.get('confirmPassword').touched" class="text-danger">*Passwords do not match</small>
+                    </div>
+                    <div class="d-grid">
+                      <button type="submit" class="btn btn-success btn-block">
+                        <i class="fas fa-user-plus me-2"></i>Register
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

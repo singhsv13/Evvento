@@ -20,16 +20,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'evvento-app'`, () => {
+  it(`should have as title 'event-manager'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('evvento-app');
+    expect(app.title).toEqual('event-manager');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('evvento-app app is running!');
+    expect(compiled.querySelector('.content span')?.textContent).toContain('event-manager app is running!');
   });
 });

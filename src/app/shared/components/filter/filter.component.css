@@ -1,0 +1,12 @@
+.form-label {
+    font-weight: 600;
+    color: #6c757d;
+  }
+  
+  .form-select {
+    min-width: 150px;
+    font-size: 0.875rem;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  

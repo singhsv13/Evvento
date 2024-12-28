@@ -1,0 +1,5 @@
+<div *ngIf="currentDialogue" class="alert" [ngClass]="getAlertClass(currentDialogue.type)" role="alert">
+    <button type="button" class="btn-close" (click)="closeDialogue()" aria-label="Close"></button>
+    {{ currentDialogue.message }}
+</div>
+  

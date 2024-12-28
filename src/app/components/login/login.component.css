@@ -1,0 +1,40 @@
+small{
+    color: red;
+    font-weight: bold;
+}
+
+
+/* Tabs Styling */
+.nav-pills .nav-link {
+    border-radius: 30px;
+    padding: 10px 20px;
+    transition: all 0.3s ease-in-out;
+  }
+  .nav-pills .nav-link.login-tab.active {
+    background-color: #007bff;
+    color: white;
+  }
+  .nav-pills .nav-link.register-tab.active {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  /* Hover Effects */
+  .nav-pills .nav-link:hover {
+    opacity: 0.8;
+  }
+  
+  /* Button Hover */
+  .btn:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Form Elements */
+  .form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  }
+  
+  .forgot-password {
+    font-size: 0.9rem; /* Adjust for smaller size */
+  }

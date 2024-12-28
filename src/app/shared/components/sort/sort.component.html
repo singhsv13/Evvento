@@ -1,0 +1,51 @@
+<!-- <div class="d-flex align-items-center">
+  <button (click)="onSortChange('nameAsc')" class="btn btn-outline-secondary btn-sm me-2" title="Sort Name Ascending">
+    <i class="fa fa-sort-alpha-asc"></i>
+  </button>
+  <button (click)="onSortChange('nameDesc')" class="btn btn-outline-secondary btn-sm me-2" title="Sort Name Descending">
+    <i class="fa fa-sort-alpha-desc"></i>
+  </button>
+  <button (click)="onSortChange('dateAsc')" class="btn btn-outline-secondary btn-sm me-2" title="Sort Date Ascending">
+    <i class="fa fa-calendar-plus"></i>
+  </button>
+  <button (click)="onSortChange('dateDesc')" class="btn btn-outline-secondary btn-sm" title="Sort Date Descending">
+    <i class="fa fa-calendar-minus"></i>
+  </button>
+</div> -->
+<div class="d-flex align-items-center">
+  <button
+    (click)="onSortChange('nameAsc')"
+    class="btn btn-outline-secondary btn-sm me-2"
+    [ngClass]="{ 'active': isActive('nameAsc') }"
+    title="Sort Name Ascending"
+  >
+    <i class="fa fa-sort-alpha-asc"></i>
+  </button>
+  
+  <button
+    (click)="onSortChange('nameDesc')"
+    class="btn btn-outline-secondary btn-sm me-2"
+    [ngClass]="{ 'active': isActive('nameDesc') }"
+    title="Sort Name Descending"
+  >
+    <i class="fa fa-sort-alpha-desc"></i>
+  </button>
+  
+  <button
+    (click)="onSortChange('dateAsc')"
+    class="btn btn-outline-secondary btn-sm me-2"
+    [ngClass]="{ 'active': isActive('dateAsc') }"
+    title="Sort Date Ascending"
+  >
+    <i class="fa fa-calendar-plus"></i>
+  </button>
+  
+  <button
+    (click)="onSortChange('dateDesc')"
+    class="btn btn-outline-secondary btn-sm"
+    [ngClass]="{ 'active': isActive('dateDesc') }"
+    title="Sort Date Descending"
+  >
+    <i class="fa fa-calendar-minus"></i>
+  </button>
+</div>
