@@ -53,7 +53,6 @@ Evvento is a user-friendly event management application built using Angular. It 
 - **Edit Form**: Update existing events with pre-filled data.  
 
 ## Future Enhancements  
-- Add backend integration for persistent data storage.  
 - Implement advanced state management with NgRx.  
 
 ## Contributing  
