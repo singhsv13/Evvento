@@ -7,26 +7,10 @@ import { Event } from '../model/Event';
 @Injectable({
   providedIn: 'root'
 })
-// export class ResolveGuard implements Resolve<Event[]> {
-//   constructor(private eventService: EventService) {}
 
-//   resolve(): Observable<Event[]> {
-//     return this.eventService.getAllEventsObservable().pipe(
-//       catchError((error) => {
-//         console.error('Error fetching events:', error);
-//         return of([]); 
-//       })
-//     );
-//   }
-// }
 export class ResolveGuard implements Resolve<Event[]> {
   
   constructor(private eventService: EventService, private router: Router) {}
-
-  /**
-   * Resolves all events before navigating to the route.
-   * @returns An Observable of Event[] or an empty array if an error occurs.
-   */
   resolve(): Observable<Event[]> {
     return this.eventService.getAllEvents().pipe(
       catchError((error) => {
