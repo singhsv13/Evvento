@@ -28,17 +28,23 @@ export class HomeComponent implements OnInit {
   constructor(private router: Router, private route: ActivatedRoute, private eventService: EventService) {}
 
   ngOnInit(): void {
-    //getting data via resolve guard
-    setTimeout(() => {
-      this.isLoading = false; // Set to false after loading is complete
-      this.route.data.subscribe((data) => {
-        this.events = data['events'];
+    // Trigger periodic expiry status updates
+    this.eventService.startExpiryStatusUpdate();
+  
+    // Load data using the resolve guard and process events
+    this.route.data.subscribe((data) => {
+      this.isLoading = true; 
+      setTimeout(() => {
+        this.isLoading = false; 
+        this.events = data['events'] || [];
+        
+        
         this.updateEventLists();
         this.updatePaginatedEvents();
-      });
-    }, 1000); // Adjust time as per the actual loading process
-    
+      }, 1000); 
+    });
   }
+  
 
   updateEventLists(): void {
     this.expiredEvents = this.events.filter((event) => event.expired);

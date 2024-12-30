@@ -3,7 +3,7 @@ import { NgForm } from '@angular/forms';
 import { Event } from 'src/app/model/Event';
 import { EventService } from 'src/app/services/event.service';
 import { ActivatedRoute } from '@angular/router';
-import { DialogueService } from 'src/app/services/dialogue.service';  // Import the DialogueService
+import { DialogueService } from 'src/app/services/dialogue.service'; // Import the DialogueService
 
 @Component({
   selector: 'app-event-form',
@@ -33,7 +33,7 @@ export class EventFormComponent implements OnInit {
   constructor(
     private eventService: EventService,
     private route: ActivatedRoute,
-    private dialogueService: DialogueService  // Inject the DialogueService
+    private dialogueService: DialogueService // Inject the DialogueService
   ) {}
 
   ngOnInit(): void {
@@ -57,7 +57,7 @@ export class EventFormComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error fetching event details:', err);
-        this.dialogueService.showDialogue('networkError');  // Show network error dialog
+        this.dialogueService.showDialogue('networkError'); // Show network error dialog
       },
     });
   }
@@ -81,7 +81,8 @@ export class EventFormComponent implements OnInit {
   }
 
   eventIDGenerate(): string {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const characters =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let result = '';
     const length = 10;
     for (let i = 0; i < length; i++) {
@@ -94,7 +95,7 @@ export class EventFormComponent implements OnInit {
   onFormSubmit(): void {
     if (this.eventForm.invalid) {
       console.error('Form is invalid');
-      this.dialogueService.showDialogue('registrationError');  // Show error dialog if form is invalid
+      this.dialogueService.showDialogue('registrationError'); // Show error dialog if form is invalid
       return;
     }
 
@@ -119,13 +120,13 @@ export class EventFormComponent implements OnInit {
 
       this.eventService.editEventDetails(this.eventId, updatedEvent).subscribe({
         next: () => {
-          this.dialogueService.showDialogue('eventUpdated');  // Show success dialog on update
+          this.dialogueService.showDialogue('eventUpdated'); // Show success dialog on update
           this.eventForm.reset();
           this.isEditMode = false;
         },
         error: (err) => {
           console.error('Error updating event:', err);
-          this.dialogueService.showDialogue('serverError');  // Show error dialog if update fails
+          this.dialogueService.showDialogue('serverError'); // Show error dialog if update fails
         },
       });
     } else {
@@ -141,9 +142,16 @@ export class EventFormComponent implements OnInit {
         expired: isExpired,
       };
 
-      this.eventService.addNewEvent(newEvent);
-      this.dialogueService.showDialogue('eventCreated');  // Show success dialog on event creation
-      this.eventForm.reset();
-    }
+      this.eventService.addNewEvent(newEvent).subscribe({
+        next: () => {
+          this.dialogueService.showDialogue('eventCreated'); // Show success dialog on event creation
+          this.eventForm.reset();
+        },
+        error: (err) => {
+          console.error('Error adding new event:', err);
+          this.dialogueService.showDialogue('serverError'); // Show error dialog if creation fails
+        },
+      });
+    } // Show success dialog on event creation
   }
 }

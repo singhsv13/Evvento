@@ -5,7 +5,7 @@ export class User {
     name?: string;
     email: string;
     password: string;
-    regEvents : Event[];
+     regEvents : Event[];
   
     constructor(name: string, email: string, password: string) {
       this.id = generateUserID();

@@ -189,7 +189,46 @@ export class EventService {
     return this.activeUser?.regEvents?.some((event) => event.id === eventId) ?? false;
   }
 
+
   getEventTypes(): string[] {
     return this.eventTypes;
   }
+
+
+  private updateExpiredStatus(event: Event): void {
+    const url = `${this.eventsEndpoint}/${event.id}.json`;
+
+    const currentDate = new Date();
+    const eventDate = new Date(event.doe);
+
+    const isExpired = eventDate < currentDate;
+
+    // Update Firebase only if expired status has changed
+    if (event.expired !== isExpired) {
+      event.expired = isExpired;
+      this.http.put(url, event).subscribe(
+        () => console.log(`Updated expired status for event ID: ${event.id}`),
+        (error) => console.error(`Failed to update expired status for event ID: ${event.id}`, error)
+      );
+    }
+  }
+
+  
+  updateAllEventsExpiryStatus(): void {
+    const url = `${this.eventsEndpoint}.json`;
+
+    this.http.get<{ [key: string]: Event }>(url).subscribe(
+      (response) => {
+        const events: Event[] = Object.values(response || {});
+        events.forEach((event) => this.updateExpiredStatus(event));
+      },
+      (error) => console.error('Failed to fetch events for expiry update', error)
+    );
+  }
+
+  
+  startExpiryStatusUpdate(intervalMs: number = 60000): void {
+    setInterval(() => this.updateAllEventsExpiryStatus(), intervalMs);
+  }
+
 }
