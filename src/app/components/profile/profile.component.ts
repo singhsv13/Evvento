@@ -15,6 +15,8 @@ import { NgForm } from '@angular/forms';
 export class ProfileComponent implements OnInit {
 
   user: User;
+  username : string;
+  emailadd : string;
   showModal: boolean = false;
 
   constructor(
@@ -72,6 +74,7 @@ export class ProfileComponent implements OnInit {
       
       this.editUserDetails();
       this.toggleEditProfile();
+      form.reset();
     } else {
       console.error('Form is invalid');
     }

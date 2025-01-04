@@ -107,7 +107,7 @@
                 class="form-control"
                 id="name"
                 name="name"
-                [(ngModel)]="user.name"
+                [(ngModel)]="username"
                 required
                 placeholder="Enter your name"
               />
@@ -125,13 +125,17 @@
                 class="form-control"
                 id="email"
                 name="email"
-                [(ngModel)]="user.email"
+                [(ngModel)]="emailadd"
+                email
                 required
                 placeholder="Enter your email"
               />
             </div>
-            <div *ngIf="profileForm.submitted && !profileForm.controls['email']?.valid" class="text-danger">
-              Valid email is required.
+            <div *ngIf="profileForm.submitted && profileForm.controls['email']?.errors?.['required']" class="text-danger">
+              Email is required.
+            </div>
+            <div *ngIf="profileForm.submitted && profileForm.controls['email']?.errors?.['email']" class="text-danger">
+              Please enter a valid email.
             </div>
           </div>
           <div class="modal-footer border-0">
