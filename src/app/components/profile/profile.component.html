@@ -113,7 +113,7 @@
               />
             </div>
             <div *ngIf="profileForm.submitted && !profileForm.controls['name']?.valid" class="text-danger">
-              Name is required.
+              *Name is required.
             </div>
           </div>
           <div class="mb-3">
@@ -132,10 +132,10 @@
               />
             </div>
             <div *ngIf="profileForm.submitted && profileForm.controls['email']?.errors?.['required']" class="text-danger">
-              Email is required.
+              *Email is required.
             </div>
             <div *ngIf="profileForm.submitted && profileForm.controls['email']?.errors?.['email']" class="text-danger">
-              Please enter a valid email.
+              *Please enter a valid email.
             </div>
           </div>
           <div class="modal-footer border-0">

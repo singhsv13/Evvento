@@ -1,25 +1,64 @@
-/* Card Hover Effect */
-.card {
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
-  .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-  }
+.landing-page {
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.8)),
+                url('../../../assets/bg.avif') no-repeat center center/cover;
+    position: relative;
   
-  /* Pagination Hover */
-  .pagination .page-item .page-link:hover {
-    background-color: #007bff;
-    color: #fff;
-  }
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+    }
   
-  /* Responsive Filter and Sort Section */
-  .d-flex.flex-wrap {
-    gap: 1rem; /* Add spacing for responsiveness */
-  }
+    .content {
+      z-index: 2;
+      max-width: 600px;
   
-  /* Custom Button Shadow */
-  .btn-outline-secondary {
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      h1 {
+        font-family: 'Pacifico', cursive;
+        font-size: 3rem;
+        letter-spacing: 1px;
+        color: #f6d965;
+  
+        .highlight {
+          color: #1db6fd;
+        }
+      }
+  
+      .tagline {
+        font-size: 1.2rem;
+        color: #dcdcdc;
+        font-weight: 300;
+      }
+  
+      .browse-btn {
+        font-size: 1rem;
+        padding: 0.5rem 1.5rem;
+        border-radius: 30px;
+        transition: all 0.3s ease;
+  
+        &:hover {
+          background-color: #1db6fd;
+          color: #fff;
+        }
+      }
+    }
+  
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2rem;
+      }
+  
+      .tagline {
+        font-size: 1rem;
+      }
+  
+      .browse-btn {
+        font-size: 0.9rem;
+        padding: 0.4rem 1rem;
+      }
+    }
   }
   
