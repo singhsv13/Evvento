@@ -18,3 +18,11 @@
     padding: 6px 10px;
   }
   
+  .modal-backdrop {
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 1040; 
+  }
+  
+  .modal-dialog {
+    z-index: 1050; 
+  }

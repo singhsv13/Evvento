@@ -5,6 +5,7 @@ import { EventService } from 'src/app/services/event.service';
 import { DialogueService } from 'src/app/services/dialogue.service'; // Import the DialogueService
 import { forkJoin } from 'rxjs';
 import { UserService } from 'src/app/services/user.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-profile',
@@ -14,11 +15,12 @@ import { UserService } from 'src/app/services/user.service';
 export class ProfileComponent implements OnInit {
 
   user: User;
+  showModal: boolean = false;
 
   constructor(
     private authService: AuthService,
     private eventService: EventService,
-    private dialogueService: DialogueService, // Inject the DialogueService
+    private dialogueService: DialogueService, 
     private userService : UserService
   ) {}
 
@@ -29,13 +31,7 @@ export class ProfileComponent implements OnInit {
       console.error('No active user found!');
       return;
     }
-    // const allRegisteredEvents = this.eventService.getRegisteredEvents();
-    // const allEvents = this.eventService.getAllEvents(); 
-
-    // this.user.regEvents = allRegisteredEvents.filter((registeredEvent) =>
-    //   allEvents.some((event) => event.id === registeredEvent.id)
-    // );
-
+    
     forkJoin({
       allRegisteredEvents: this.eventService.getRegisteredEvents(),
       allEvents: this.eventService.getAllEvents(),
@@ -63,25 +59,42 @@ export class ProfileComponent implements OnInit {
     }
   }
 
+  toggleEditProfile() {
+    this.showModal = !this.showModal; 
+  }
+
+  saveProfileChanges(form : NgForm){
+    // console.log("Form : ", form);
+    if (form.valid) {
+      this.user.name = form.value.name;
+      this.user.email = form.value.email;
+      // console.log(this.user)
+      
+      this.editUserDetails();
+      this.toggleEditProfile();
+    } else {
+      console.error('Form is invalid');
+    }
+  }
+
   editUserDetails(): void {
-    // if (this.user) {
-    //   // Assuming you have a form to edit user details.
-    //   this.userService.updateUser(this.user.id, this.user).subscribe({
-    //     next: () => {
-    //       this.dialogueService.showDialogue('userUpdated');
-    //     },
-    //     error: (error) => {
-    //       console.error('Error updating user:', error);
-    //       this.dialogueService.showDialogue('serverError');
-    //     }
-    //   });
-    // }
+    if (this.user) {
+      console.log(this.user)
+      this.userService.updateUser(this.user.id, this.user).subscribe({
+        next: () => {
+          this.dialogueService.showDialogue('userUpdated');
+        },
+        error: (error) => {
+          console.error('Error updating user:', error);
+          this.dialogueService.showDialogue('serverError');
+        }
+      });
+    }
   }
 
 
   logout(): void {
     this.authService.logOut();
-    // Show the logout confirmation dialogue after logging out
     this.dialogueService.showDialogue('logoutConfirmation');
   }
 

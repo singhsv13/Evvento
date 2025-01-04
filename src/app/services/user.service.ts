@@ -72,11 +72,11 @@ export class UserService {
     return this.http.put<void>(url, user).pipe(
       tap(
         () => {
-          console.log('User updated:', user);
+          // console.log('User updated:', user);
           this.dialogueService.showDialogue('userUpdated');
         },
         (error) => {
-          console.error('Error updating user:', error);
+          // console.error('Error updating user:', error);
           this.dialogueService.showDialogue('serverError');
         }
       )
@@ -98,6 +98,8 @@ export class UserService {
       )
     );
   }
+
+
 
   authenticateUser(email: string, password: string): Observable<User | null> {
     return this.getAllUsers().pipe(
