@@ -1,134 +1,32 @@
-.landing-page {
-  background: linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, 0.4),
-      rgba(0, 0, 0, 0.8)
-    ),
-    url('../../../assets/bg.avif') no-repeat center center/cover;
+.home-container {
+  font-family: 'Ubuntu', serif;
+}
+
+.hero-section {
   position: relative;
+  color: white;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
+}
 
-  .overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.6);
-  }
+.hero-section .btn {
+  background-color: #007bff;
+  border: none;
+  transition: background-color 0.3s ease;
+}
 
-  .content {
-    z-index: 2;
-    max-width: 600px;
-    padding: 1rem;
-    animation: slideIn 1s ease-in-out;
+.hero-section .btn:hover {
+  background-color: #0056b3;
+}
 
-    h1 {
-      font-family: 'Pacifico', cursive;
-      font-size: 3rem;
-      color: #f6d965;
-      letter-spacing: 1.2px;
-      text-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+.cta-section {
+  background-color: #343a40;
+}
 
-      .highlight {
-        color: #17a2b8;
-        text-shadow: 0 3px 6px rgba(23, 162, 184, 0.5);
-      }
-    }
-
-    .tagline {
-      font-size: 1.2rem;
-      color: #e2e2e2;
-      font-weight: 300;
-      margin-bottom: 2rem;
-    }
-
-    .browse-btn {
-      font-size: 1rem;
-      padding: 0.6rem 1.8rem;
-      transition: all 0.3s ease-in-out;
-      border: none;
-
-      &:hover {
-        background-color: #117a8b;
-        color: #fff;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      }
-    }
-  }
-
-  @keyframes slideIn {
-    from {
-      opacity: 0;
-      transform: translateY(30px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  @media (max-width: 1200px) {
-    .content h1 {
-      font-size: 2.5rem;
-    }
-
-    .content .tagline {
-      font-size: 1.1rem;
-    }
-
-    .content .browse-btn {
-      font-size: 0.95rem;
-      padding: 0.5rem 1.5rem;
-    }
-  }
-
-  @media (max-width: 992px) {
-    .content {
-      max-width: 90%;
-    }
-
-    .content h1 {
-      font-size: 2.2rem;
-    }
-
-    .content .tagline {
-      font-size: 1rem;
-    }
-
-    .content .browse-btn {
-      font-size: 0.9rem;
-      padding: 0.4rem 1.2rem;
-    }
-  }
-
-  @media (max-width: 768px) {
-    .content h1 {
-      font-size: 2rem;
-    }
-
-    .content .tagline {
-      font-size: 0.95rem;
-    }
-
-    .content .browse-btn {
-      font-size: 0.85rem;
-      padding: 0.3rem 1rem;
-    }
-  }
-
-  @media (max-width: 576px) {
-    .content h1 {
-      font-size: 1.8rem;
-    }
-
-    .content .tagline {
-      font-size: 0.85rem;
-    }
-
-    .content .browse-btn {
-      font-size: 0.8rem;
-      padding: 0.3rem 0.8rem;
-    }
-  }
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+.brand{
+  font-family: 'Pacifico', cursive;
 }

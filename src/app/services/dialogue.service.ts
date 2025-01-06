@@ -11,11 +11,12 @@ export class DialogueService {
   private dialogueSource = new BehaviorSubject<Dialogue | null>(null);
   currentDialogue = this.dialogueSource.asObservable();
 
-  dialogues = {
+  dialogues : Record<string, Dialogue> = {
     // Authentication
     loginSuccess: { message: 'Welcome back! Ready to plan your next event?', type: 'success' } as const,
     loginFailure: { message: 'Oops! Incorrect email or password. Please try again.', type: 'error' } as const,
     logoutConfirmation: { message: 'You’ve been logged out. See you soon!', type: 'info' } as const,
+    loginRequired: { message: 'You need to log in to access this feature.', type: 'warning' } as const,
 
     // User Registration
     registrationSuccess: { message: 'Your account has been created successfully!', type: 'success' } as const,
@@ -71,7 +72,7 @@ export class DialogueService {
     searchFailure: { message: 'No results found. Try different search terms.', type: 'info' } as const,
   };
 
-  showDialogue(key: keyof typeof this.dialogues): void {
+  showDialogue(key: string): void {
     const dialogue = this.dialogues[key];
     if (dialogue) {
       this.dialogueSource.next(dialogue);

@@ -112,10 +112,16 @@ export class EventDetailsComponent implements OnInit {
   }
 
   onEditClicked(id: string) {
-    this.router.navigate([`/event/edit`, id], {
-      queryParams: { edit: true },
-    });
+    this.loginStatus = this.authService.isAuthenticated();
+  
+    if (this.loginStatus) {
+      this.router.navigate([`/event/edit`, id], { queryParams: { edit: true } });
+    } else {
+      this.dialogueService.showDialogue('loginRequired');
+      this.router.navigate(['/login']);
+    }
   }
+  
 
   onDeleteClicked(id: string) {
     this.dialogueService.showDialogue('unregisterConfirmation');

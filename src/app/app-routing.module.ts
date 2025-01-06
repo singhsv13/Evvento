@@ -15,11 +15,11 @@ import { HomeComponent } from './components/home/home.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
-  { path: 'all-events', component: AllEventsComponent, resolve: { events: ResolveGuard } },
+  { path: 'all-events', component: AllEventsComponent, resolve: { events: ResolveGuard }, canActivate: [AuthGuard] },
   { path: 'profile', component: ProfileComponent },
   { path: 'my-events', component: MyEventsComponent, canActivate: [AuthGuard] },
-  { path: 'register-event', component: EventFormComponent },
-  { path: 'event/edit/:id', component: EventFormComponent },
+  { path: 'register-event', component: EventFormComponent, canActivate: [AuthGuard] },
+  { path: 'event/edit/:id', component: EventFormComponent, canActivate: [AuthGuard] },
   { path: 'event/:id', component: EventDetailsComponent },
   { path: 'login', component: LoginComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
