@@ -1,15 +1,16 @@
 <div class="wrapper">
   <div class="content">
+    <!-- No Events Message -->
     <div
       class="container d-flex justify-content-center align-items-center vh-100"
       *ngIf="events.length === 0"
     >
       <div
         class="card shadow-sm text-center p-4"
-        style="max-width: 500px; width: 100%; border-radius: 10px"
+        style="max-width: 500px; width: 100%; border-radius: 12px"
       >
         <i class="fas fa-calendar-times fa-5x text-muted mb-4"></i>
-        <h3 class="card-title mb-3">Sorry, No Events Subscribed</h3>
+        <h3 class="card-title mb-3">No Events Found</h3>
         <p class="text-muted">
           You haven’t subscribed to any events yet. Explore and join events now!
         </p>
@@ -17,8 +18,8 @@
     </div>
 
     <!-- Events Section -->
-    <div class="container mt-4" *ngIf="events.length > 0">
-      <!-- Filter and Sort Components -->
+    <div class="container mt-5" *ngIf="events.length > 0">
+      <!-- Filter and Sort -->
       <div
         class="d-flex flex-wrap justify-content-between mb-4 align-items-center"
       >
@@ -35,47 +36,49 @@
         ></app-sort>
       </div>
 
-      <div class="row">
-        <!-- Display Events -->
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
-          <div class="col" *ngFor="let event of paginatedEvents">
-            <div class="card h-100 shadow-sm border-0">
-              <img
-                [src]="event.imageURL"
-                class="card-img-top rounded-top"
-                alt="{{ event.name }}"
-              />
-              <div class="card-body">
-                <h5
-                  class="card-title text-truncate fw-bold"
-                  title="{{ event.name }}"
-                >
-                  {{ event.name }}
-                </h5>
-                <p class="card-text text-truncate" style="max-height: 60px">
-                  {{ event.desc }}
+      <!-- Event Cards -->
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        <div
+          class="col"
+          *ngFor="let event of paginatedEvents"
+        >
+          <div
+            class="card h-100 shadow border-0 event-card"
+            style="border-radius: 12px"
+          >
+            <img
+              [src]="event.imageURL"
+              class="card-img-top"
+              alt="{{ event.name }}"
+              style="border-radius: 12px 12px 0 0; object-fit: cover; height: 200px;"
+            />
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title text-truncate fw-bold" title="{{ event.name }}">
+                {{ event.name }}
+              </h5>
+              <p
+                class="card-text text-truncate"
+                style="max-height: 60px; overflow: hidden;"
+              >
+                {{ event.desc }}
+              </p>
+              <div class="mt-auto">
+                <p class="text-muted small mb-2">
+                  <i class="fas fa-calendar-alt me-2"></i>{{ event.doe | date : "mediumDate" }}
                 </p>
-                <p class="card-text small text-muted">
-                  <i class="fas fa-tags me-2"></i><strong>Type:</strong>
-                  {{ event.type }} <br />
-                  <i class="fas fa-map-marker-alt me-2"></i
-                  ><strong>Location:</strong> {{ event.location }} <br />
-                  <i class="fas fa-calendar-alt me-2"></i
-                  ><strong>Date:</strong> {{ event.doe | date : "longDate" }}
-                  <br />
-                  <i class="fas fa-user me-2"></i
-                  ><strong>Organized by:</strong> {{ event.organisedBy }}
+                <p class="text-muted small mb-2">
+                  <i class="fas fa-map-marker-alt me-2"></i>{{ event.location }}
                 </p>
-                <!-- Expired Badge -->
-                <div *ngIf="event.expired" class="mb-2">
-                  <span class="badge bg-danger">Expired</span>
-                </div>
                 <a
                   (click)="readMoreClicked(event.id)"
-                  class="btn btn-primary btn-sm w-100"
+                  class="btn btn-outline-primary btn-sm w-100"
+                  style="border-radius: 8px;"
                 >
-                  <i class="fas fa-info-circle me-2"></i>More Info
+                  More Info
                 </a>
+                <div *ngIf="event.expired" class="text-center mt-2">
+                  <span class="badge bg-danger">Expired</span>
+                </div>
               </div>
             </div>
           </div>
@@ -84,11 +87,11 @@
 
       <!-- Pagination -->
       <app-pagination
+        class="mt-4"
         [currentPage]="currentPage"
         [totalPages]="totalPages()"
         (pageChange)="onPageChange($event)"
       ></app-pagination>
-      
     </div>
   </div>
 </div>

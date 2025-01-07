@@ -82,7 +82,7 @@ export class EventDetailsComponent implements OnInit {
         },
       });
     } else {
-      this.dialogueService.showDialogue('loginFailure');
+      this.dialogueService.showDialogue('loginRequired');
       this.router.navigate(['login']);
     }
   }
@@ -106,7 +106,7 @@ export class EventDetailsComponent implements OnInit {
         },
       });
     } else {
-      this.dialogueService.showDialogue('loginFailure');
+      this.dialogueService.showDialogue('loginRequired');
       this.router.navigate(['login']);
     }
   }
@@ -118,23 +118,29 @@ export class EventDetailsComponent implements OnInit {
       this.router.navigate([`/event/edit`, id], { queryParams: { edit: true } });
     } else {
       this.dialogueService.showDialogue('loginRequired');
-      this.router.navigate(['/login']);
+      // this.router.navigate(['/login']);
     }
   }
   
 
   onDeleteClicked(id: string) {
     this.dialogueService.showDialogue('unregisterConfirmation');
-    this.eventService.deleteEvent(id).subscribe({
-      next: () => {
-        this.dialogueService.showDialogue('eventDeleted');
-        this.router.navigate(['/home']);
-      },
-      error: (err) => {
-        console.error('Error deleting event:', err);
-        this.dialogueService.showDialogue('serverError');
-      },
-    });
+    this.loginStatus = this.authService.isAuthenticated();
+    if(this.loginStatus){
+      this.eventService.deleteEvent(id).subscribe({
+        next: () => {
+          this.dialogueService.showDialogue('eventDeleted');
+          this.router.navigate(['/home']);
+        },
+        error: (err) => {
+          console.error('Error deleting event:', err);
+          this.dialogueService.showDialogue('serverError');
+        },
+      });
+    }
+    else{
+      this.dialogueService.showDialogue('loginRequired');
+    }
   }
 
   isEventExpired(): boolean {
