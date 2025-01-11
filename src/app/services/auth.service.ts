@@ -104,10 +104,10 @@ export class AuthService {
         if (user) {
           this.loggedUser = this.initializeUser(user); // Ensure `regEvents` is an array
           this.dialogService.showDialogue('loginSuccess');
-          console.log('Login successful:', user);
+          // console.log('Login successful:', user);
         } else {
           this.dialogService.showDialogue('loginFailure');
-          console.log('Login failed: Invalid credentials');
+          // console.log('Login failed: Invalid credentials');
         }
       })
     );
@@ -119,7 +119,7 @@ export class AuthService {
       switchMap((existingUser) => {
         if (existingUser) {
           this.dialogService.showDialogue('registrationError');
-          console.log('Registration failed: Email already exists.');
+          // console.log('Registration failed: Email already exists.');
           return of(null);
         } else {
           const newUser = new User(name, email, password);
@@ -128,7 +128,7 @@ export class AuthService {
             map(() => {
               this.loggedUser = this.initializeUser(newUser);
               this.dialogService.showDialogue('registrationSuccess');
-              console.log('Registration successful:', newUser);
+              // console.log('Registration successful:', newUser);
               return newUser;
             }),
             tap(() => console.log('User added successfully to the system.'))
@@ -151,6 +151,7 @@ export class AuthService {
       this.dialogService.showDialogue('logoutConfirmation');
       console.log(`${this.loggedUser.name} logged out.`);
     } else {
+      this.dialogService.showDialogue('loginStatus');
       console.log('No user is currently logged in.');
     }
     this.loggedUser = null;

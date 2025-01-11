@@ -17,6 +17,7 @@ export class DialogueService {
     loginFailure: { message: 'Oops! Incorrect email or password. Please try again.', type: 'error' } as const,
     logoutConfirmation: { message: 'You’ve been logged out. See you soon!', type: 'info' } as const,
     loginRequired: { message: 'You need to log in to access this feature.', type: 'warning' } as const,
+    loginStatus : { message: 'No user is currently logged in.', type: 'info' } as const,
 
     // User Registration
     registrationSuccess: { message: 'Your account has been created successfully!', type: 'success' } as const,
@@ -41,9 +42,9 @@ export class DialogueService {
     eventDeletionError: { message: 'Oops! Error occurred in deleting event.', type: 'error' } as const,
 
     // Event Creation/Modification
-    eventCreated: { message: 'Your event has been created successfully!', type: 'success' } as const,
+    eventCreated: { message: 'Event has been registered successfully!', type: 'success' } as const,
     eventUpdated: { message: 'Event details updated successfully!', type: 'success' } as const,
-    eventDeleted: { message: 'The event has been deleted successfully.', type: 'success' } as const,
+    eventDeleted: { message: 'Event deleted successfully.', type: 'success' } as const,
 
     // Confirmations
     unregisterConfirmation: { message: 'Are you sure you want to unregister from this event?', type: 'warning' } as const,
