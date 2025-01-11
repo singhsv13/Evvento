@@ -24,29 +24,53 @@ export class MyEventsComponent implements OnInit {
     this.fetchRegisteredEvents();
   }
 
+  // fetchRegisteredEvents(): void {
+  //   // const allRegisteredEvents = this.eventService.getRegisteredEvents();
+  //   // const allEvents = this.eventService.getAllEvents(); // Fetch all current events from the service.
+
+  //   // // Filter registered events to ensure they still exist in the event list.
+  //   // this.events = allRegisteredEvents.filter((registeredEvent) =>
+  //   //   allEvents.some((event) => event.id === registeredEvent.id)
+  //   // );
+
+  //   // this.updatePaginatedEvents();
+
+  //   forkJoin({
+  //     allRegisteredEvents: this.eventService.getRegisteredEvents(),
+  //     allEvents: this.eventService.getAllEvents(),
+  //   }).subscribe(({ allRegisteredEvents, allEvents }) => {
+  //     // Filter registered events to ensure they still exist in the event list
+  //     this.events = allRegisteredEvents.filter((registeredEvent) =>
+  //       allEvents.some((event) => event.id === registeredEvent.id)
+  //     );
+
+  //     this.updatePaginatedEvents();
+  //   });
+  // }
+
   fetchRegisteredEvents(): void {
-    // const allRegisteredEvents = this.eventService.getRegisteredEvents();
-    // const allEvents = this.eventService.getAllEvents(); // Fetch all current events from the service.
-
-    // // Filter registered events to ensure they still exist in the event list.
-    // this.events = allRegisteredEvents.filter((registeredEvent) =>
-    //   allEvents.some((event) => event.id === registeredEvent.id)
-    // );
-
-    // this.updatePaginatedEvents();
-
     forkJoin({
-      allRegisteredEvents: this.eventService.getRegisteredEvents(),
-      allEvents: this.eventService.getAllEvents(),
-    }).subscribe(({ allRegisteredEvents, allEvents }) => {
-      // Filter registered events to ensure they still exist in the event list
-      this.events = allRegisteredEvents.filter((registeredEvent) =>
-        allEvents.some((event) => event.id === registeredEvent.id)
-      );
-
-      this.updatePaginatedEvents();
-    });
+      allRegisteredEvents: this.eventService.getRegisteredEvents(), // Returns string[]
+      allEvents: this.eventService.getAllEvents(), // Returns Event[]
+    }).subscribe(
+      ({ allRegisteredEvents, allEvents }) => {
+        // Ensure the types are correctly inferred and matched
+        this.events = (allRegisteredEvents || [])
+          .map((registeredEvent : Event) => 
+            allEvents.find((event) => event.id === registeredEvent.id) || null
+          )
+          .filter((event): event is Event => !!event); // Filter out null values and ensure type safety
+  
+        this.updatePaginatedEvents();
+      },
+      (error) => {
+        console.error('Error fetching registered events:', error);
+      }
+    );
   }
+  
+  
+  
 
   updatePaginatedEvents(): void {
     let filteredAndSortedEvents = this.events;

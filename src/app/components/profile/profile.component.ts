@@ -6,6 +6,7 @@ import { DialogueService } from 'src/app/services/dialogue.service'; // Import t
 import { forkJoin } from 'rxjs';
 import { UserService } from 'src/app/services/user.service';
 import { NgForm } from '@angular/forms';
+import { Event } from 'src/app/model/Event';
 
 @Component({
   selector: 'app-profile',
@@ -18,6 +19,7 @@ export class ProfileComponent implements OnInit {
   username : string;
   emailadd : string;
   showModal: boolean = false;
+  registeredEvents: Event[] = []; 
 
   constructor(
     private authService: AuthService,
@@ -27,21 +29,43 @@ export class ProfileComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // this.user = this.authService.getActiveUser();
+
+    // if (!this.user) {
+    //   console.error('No active user found!');
+    //   return;
+    // }
+    
+    // forkJoin({
+    //   allRegisteredEvents: this.eventService.getRegisteredEvents(),
+    //   allEvents: this.eventService.getAllEvents(),
+    // }).subscribe(({ allRegisteredEvents, allEvents }) => {
+    //   this.user.regEvents = allRegisteredEvents.filter((registeredEvent) =>
+    //     allEvents.some((event) => event.id === registeredEvent.id)
+    //   );
+    // });
     this.user = this.authService.getActiveUser();
 
     if (!this.user) {
       console.error('No active user found!');
       return;
     }
-    
-    forkJoin({
-      allRegisteredEvents: this.eventService.getRegisteredEvents(),
-      allEvents: this.eventService.getAllEvents(),
-    }).subscribe(({ allRegisteredEvents, allEvents }) => {
-      this.user.regEvents = allRegisteredEvents.filter((registeredEvent) =>
-        allEvents.some((event) => event.id === registeredEvent.id)
+
+    // Fetch registered events using IDs
+    if (this.user.regEvents && this.user.regEvents.length > 0) {
+      const eventObservables = this.user.regEvents.map((eventId) =>
+        this.eventService.getEventByID(eventId)
       );
-    });
+
+      forkJoin(eventObservables).subscribe({
+        next: (events) => {
+          this.registeredEvents = events.filter((event) => event !== null);
+        },
+        error: (error) => {
+          console.error('Error fetching registered events:', error);
+        },
+      });
+    }
   }
 
   deleteUserProfile(): void {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Event } from '../model/Event';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, forkJoin, Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 import { User } from '../model/User';
@@ -79,47 +79,85 @@ export class EventService {
     );
   }
 
+  // registerForEvent(eventId: string): Observable<boolean> {
+  //   this.activeUser = this.authService.getActiveUser();
+
+  //   if (this.activeUser) {
+  //     const alreadyRegisteredEvent = this.activeUser.regEvents?.find(
+  //       (event) => event.id === eventId
+  //     );
+
+  //     if (alreadyRegisteredEvent) {
+  //       this.dialogueService.showDialogue('eventAlreadyRegistered');
+  //       return of(false);
+  //     }
+
+  //     return this.getEventByID(eventId).pipe(
+  //       map((event) => {
+  //         if (event) {
+  //           if (!this.activeUser.regEvents) {
+  //             this.activeUser.regEvents = [];
+  //           }
+  //           this.activeUser.regEvents.push(event);
+
+  //           const userUrl = `${this.usersEndpoint}/${this.activeUser.id}/regEvents.json`;
+  //           this.http.put(userUrl, this.activeUser.regEvents).subscribe();
+  //           this.dialogueService.showDialogue('eventRegistered');
+  //           return true;
+  //         }
+  //         return false;
+  //       })
+  //     );
+  //   } else {
+  //     this.dialogueService.showDialogue('permissionDenied');
+  //     return of(false);
+  //   }
+  // }
   registerForEvent(eventId: string): Observable<boolean> {
     this.activeUser = this.authService.getActiveUser();
-
-    if (this.activeUser) {
-      const alreadyRegisteredEvent = this.activeUser.regEvents?.find(
-        (event) => event.id === eventId
-      );
-
-      if (alreadyRegisteredEvent) {
-        this.dialogueService.showDialogue('eventAlreadyRegistered');
-        return of(false);
-      }
-
-      return this.getEventByID(eventId).pipe(
-        map((event) => {
-          if (event) {
-            if (!this.activeUser.regEvents) {
-              this.activeUser.regEvents = [];
-            }
-            this.activeUser.regEvents.push(event);
-
-            const userUrl = `${this.usersEndpoint}/${this.activeUser.id}/regEvents.json`;
-            this.http.put(userUrl, this.activeUser.regEvents).subscribe();
-            this.dialogueService.showDialogue('eventRegistered');
-            return true;
-          }
-          return false;
-        })
-      );
-    } else {
+    if (!this.activeUser) {
       this.dialogueService.showDialogue('permissionDenied');
       return of(false);
     }
+  
+    this.activeUser.regEvents = this.activeUser.regEvents || [];
+  
+    if (this.activeUser.regEvents.includes(eventId)) {
+      this.dialogueService.showDialogue('eventAlreadyRegistered');
+      return of(false);
+    }
+  
+    this.activeUser.regEvents.push(eventId);
+  
+    const userUrl = `${this.usersEndpoint}/${this.activeUser.id}/regEvents.json`;
+    return this.http.put(userUrl, this.activeUser.regEvents).pipe(
+      tap(() => this.dialogueService.showDialogue('eventRegistered')),
+      map(() => true)
+    );
   }
+  
 
+  // getRegisteredEvents(): Observable<Event[]> {
+  //   this.activeUser = this.authService.getActiveUser();
+  //   if (!this.activeUser || !this.activeUser.regEvents) {
+  //     return of([]);
+  //   }
+  //   return of(this.activeUser.regEvents);
+  // }
   getRegisteredEvents(): Observable<Event[]> {
     this.activeUser = this.authService.getActiveUser();
-    if (!this.activeUser || !this.activeUser.regEvents) {
+
+    if (!this.activeUser || !this.activeUser.regEvents.length) {
       return of([]);
     }
-    return of(this.activeUser.regEvents);
+
+    const eventObservables = this.activeUser.regEvents.map((eventId) =>
+      this.getEventByID(eventId)
+    );
+
+    return forkJoin(eventObservables).pipe(
+      map((events) => events.filter((event) => !!event)) // Filter out null responses
+    );
   }
 
   private checkAndMarkExpired(event: Event): void {
@@ -128,29 +166,50 @@ export class EventService {
     event.expired = eventDate < currentDate;
   }
 
+  // unRegisterEvent(eventId: string): Observable<boolean> {
+  //   this.activeUser = this.authService.getActiveUser();
+
+  //   if (this.activeUser && this.activeUser.regEvents) {
+  //     const eventIndex = this.activeUser.regEvents.findIndex(
+  //       (event) => event.id === eventId
+  //     );
+
+  //     if (eventIndex !== -1) {
+  //       this.activeUser.regEvents.splice(eventIndex, 1);
+  //       const userUrl = `${this.usersEndpoint}/${this.activeUser.id}/regEvents.json`;
+  //       this.http.put(userUrl, this.activeUser.regEvents).subscribe();
+  //       this.dialogueService.showDialogue('eventUnregistered');
+  //       return of(true);
+  //     } else {
+  //       this.dialogueService.showDialogue('eventAlreadyUnregistered');
+  //       return of(false);
+  //     }
+  //   } else {
+  //     this.dialogueService.showDialogue('permissionDenied');
+  //     return of(false);
+  //   }
+  // }
+
   unRegisterEvent(eventId: string): Observable<boolean> {
     this.activeUser = this.authService.getActiveUser();
-
-    if (this.activeUser && this.activeUser.regEvents) {
-      const eventIndex = this.activeUser.regEvents.findIndex(
-        (event) => event.id === eventId
+    if (!this.activeUser || !this.activeUser.regEvents.includes(eventId)) {
+      this.dialogueService.showDialogue(
+        this.activeUser ? 'eventAlreadyUnregistered' : 'permissionDenied'
       );
-
-      if (eventIndex !== -1) {
-        this.activeUser.regEvents.splice(eventIndex, 1);
-        const userUrl = `${this.usersEndpoint}/${this.activeUser.id}/regEvents.json`;
-        this.http.put(userUrl, this.activeUser.regEvents).subscribe();
-        this.dialogueService.showDialogue('eventUnregistered');
-        return of(true);
-      } else {
-        this.dialogueService.showDialogue('eventAlreadyUnregistered');
-        return of(false);
-      }
-    } else {
-      this.dialogueService.showDialogue('permissionDenied');
       return of(false);
     }
+  
+    this.activeUser.regEvents = this.activeUser.regEvents.filter(
+      (id) => id !== eventId
+    );
+  
+    const userUrl = `${this.usersEndpoint}/${this.activeUser.id}/regEvents.json`;
+    return this.http.put(userUrl, this.activeUser.regEvents).pipe(
+      tap(() => this.dialogueService.showDialogue('eventUnregistered')),
+      map(() => true)
+    );
   }
+  
 
   deleteEvent(id: string): Observable<void> {
     const url = `${this.eventsEndpoint}/${id}.json`;
@@ -184,9 +243,15 @@ export class EventService {
     );
   }
 
+  // private isUserRegisteredForEvent(eventId: string): boolean {
+  //   this.activeUser = this.authService.getActiveUser();
+  //   return this.activeUser?.regEvents?.some((event) => event.id === eventId) ?? false;
+  // }
+
   private isUserRegisteredForEvent(eventId: string): boolean {
     this.activeUser = this.authService.getActiveUser();
-    return this.activeUser?.regEvents?.some((event) => event.id === eventId) ?? false;
+    // console.log("Active User : ", this.activeUser);
+    return this.activeUser?.regEvents?.includes(eventId) ?? false;
   }
 
 
