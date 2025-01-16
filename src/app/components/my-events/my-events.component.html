@@ -3,7 +3,7 @@
     <!-- No Events Message -->
     <div
       class="container d-flex justify-content-center align-items-center vh-100"
-      *ngIf="events.length === 0"
+      *ngIf="!isLoading && events.length === 0"
     >
       <div
         class="card shadow-sm text-center p-4"
@@ -18,7 +18,9 @@
     </div>
 
     <!-- Events Section -->
-    <div class="container mt-4" *ngIf="events.length > 0">
+    <div class="container mt-4">
+      
+      <app-spinner *ngIf="isLoading"></app-spinner>
       <!-- Filter and Sort -->
       <div
         class="d-flex flex-wrap justify-content-between mb-4 align-items-center"
@@ -37,7 +39,7 @@
       </div>
 
       <!-- Event Cards -->
-      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" *ngIf="!isLoading && events.length > 0">
         <div
           class="col"
           *ngFor="let event of paginatedEvents"

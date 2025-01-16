@@ -17,11 +17,16 @@ export class MyEventsComponent implements OnInit {
   filterType: string = 'all';  // Default filter type is 'all'
   sortDirection: 'nameAsc' | 'nameDesc' | 'dateAsc' | 'dateDesc' = 'nameAsc';  // Default sort direction
   eventTypes = this.eventService.getEventTypes();
+  isLoading : boolean = true;
 
   constructor(private router: Router, private eventService: EventService) {}
 
   ngOnInit(): void {
-    this.fetchRegisteredEvents();
+    this.isLoading = true; 
+    setTimeout(() => {
+      this.isLoading = false; 
+      this.fetchRegisteredEvents();  
+      }, 1000);
   }
 
   // fetchRegisteredEvents(): void {
